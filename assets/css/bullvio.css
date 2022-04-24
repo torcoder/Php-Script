@@ -1,0 +1,301 @@
+/* Logo Boyutlandırma */
+
+.brand-byt {
+    max-width: 300px;
+    max-height: 150px;
+}
+
+.brand-center {
+    text-align: center;
+}
+
+
+/* Yazı Fontu */
+
+.sekizpt {
+    font-size: 8pt!important;
+}
+
+.dokuzpt {
+    font-size: 9pt!important;
+}
+
+.onpt {
+    font-size: 10pt!important;
+}
+
+.onbirpt {
+    font-size: 11pt!important;
+}
+
+.onikipt {
+    font-size: 12pt!important;
+}
+
+.onucpt {
+    font-size: 13pt!important;
+}
+
+.ondortpt {
+    font-size: 14pt!important;
+}
+
+.onbespt {
+    font-size: 15pt!important;
+}
+
+.onaltipt {
+    font-size: 16pt!important;
+}
+
+.yirmipt {
+    font-size: 20pt!important;
+}
+
+.yirmidortpt {
+    font-size: 24pt!important;
+}
+
+.social-size {
+    font-size: 16pt!important;
+    ;
+}
+
+
+/* Yazı Renkleri */
+
+.yz-siyah {
+    color: black;
+}
+
+.yz-beyaz {
+    color: white;
+}
+
+.yz-turuncu {
+    color: #ef6603;
+}
+
+
+/* Background Renkleri */
+
+.bg-siyah {
+    background-color: black;
+}
+
+.bg-beyaz {
+    background-color: white;
+}
+
+.bg-grey {
+    background-color: #f0f1f1;
+}
+
+.bg-turuncu {
+    background-color: #ef6603!important;
+}
+
+.bg-mavi {
+    background-color: #09164d;
+}
+
+
+/* Button Renklendirme */
+
+.btn-turuncu {
+    background-color: #ef6603!important;
+    border-radius: 88px 88px 88px 88px!important;
+    -webkit-border-radius: 88px 88px 88px 88px!important;
+    -moz-border-radius: 88px 88px 88px 88px!important;
+}
+
+.btn-turuncu:hover {
+    background-color: #fa6902!important;
+}
+
+
+/* Link Düzenlemeri */
+
+
+/* 1. Link altındaki yazıyı kaldırma */
+
+.link-kaldir {
+    text-decoration: none;
+}
+
+.link-kaldir:hover {
+    color: #ff6600;
+}
+
+
+/* Hizalama */
+
+.bv-center {
+    vertical-align: auto;
+}
+
+.bv-mg-left {
+    margin-left: 2%;
+}
+
+.bv-right {
+    text-align: right;
+}
+
+.bv-text-center {
+    text-align: center;
+}
+
+.bv-text-right {
+    text-align: right;
+}
+
+.bv-text-left {
+    text-align: left;
+}
+
+.bv-top {
+    margin-top: 1%!important;
+}
+
+
+/* Resim Boyutlandırma */
+
+
+/* 1. 300x250 */
+
+.img-kucuk {
+    max-height: 400px;
+    max-width: 400px;
+    padding: 0 0;
+    margin: 0 0;
+    width: 100%;
+}
+
+
+/* Box Shadow*/
+
+.bv-shadow-1 {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.bv-shadow-2 {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.bv-shadow-3 {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.bv-shadow-4 {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+.bv-shadow-5 {
+    box-shadow: 0px 0px 23px 1px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 0px 0px 23px 1px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 0px 23px 1px rgba(0, 0, 0, 0.7);
+}
+
+
+/* Border İle Alakalı Bölüm*/
+
+.bv-border-none {
+    border: 0!important;
+}
+
+.bv-container-bottom-border {
+    border-bottom: 0.01rem solid #e1e1e1;
+}
+
+.bv-border {
+    border: 0.01rem solid #e1e1e1;
+}
+
+.bv-border-radius-1 {
+    border-radius: 15px 15px 15px 15px!important;
+    -webkit-border-radius: 15px 15px 15px 15px!important;
+    -moz-border-radius: 15px 15px 15px 15px!important;
+}
+
+.bv-dropdown-item-top-1 {
+    border-radius: 15px 15px 0 0!important;
+    -webkit-border-radius: 15px 15px 0 0!important;
+    -moz-border-radius: 27px 27px 0 0!important;
+}
+
+.bv-dropdown-item-bottom-1 {
+    border-radius: 0 0 15px 15px!important;
+    -webkit-border-radius: 0 0 15px 15px!important;
+    -moz-border-radius: 0 0 15px 15px!important;
+}
+
+
+/* Buton Renklendirme */
+
+.bv-btn:hover {
+    background-color: #016275!important;
+}
+
+
+/* FONT KALINLIĞI */
+
+.font-1 {
+    font-weight: 400!important;
+}
+
+.font-2 {
+    font-weight: 500!important;
+}
+
+.font-3 {
+    font-weight: 700!important;
+}
+
+.font-4 {
+    font-weight: 800!important;
+}
+
+
+/* Negative Margin*/
+
+.mtn-1 {
+    margin-top: -0.25rem !important;
+    ;
+}
+
+.mtn-2 {
+    margin-top: -0.50rem !important;
+    ;
+}
+
+.mtn-3 {
+    margin-top: -0.75rem !important;
+    ;
+}
+
+.mtn-4 {
+    margin-top: -1rem !important;
+    ;
+}
+
+.mtn-5 {
+    margin-top: -5rem !important;
+    ;
+}
+
+.mtn-6 {
+    margin-top: -10rem !important;
+    ;
+}
+
+
+/* Nav Color */
+
+.nav-text-beyaz {
+    color: white!important;
+}
+
+.nav-text-beyaz:hover {
+    color: #fedb03!important;
+}
