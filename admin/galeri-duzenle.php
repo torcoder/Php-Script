@@ -37,7 +37,7 @@
 
                 <?php include 'header.php';
 $id = $_GET['id'];
-$query = $baglanti->prepare("SELECT * FROM slider WHERE id=?");
+$query = $baglanti->prepare("SELECT * FROM galeri WHERE id=?");
 $query->execute(array($id));
 $row = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -48,15 +48,14 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <!-- Approach -->
-                            <form name="sliderUpdate" id="sliderUpdate">
+                            <form name="galleryUpdate" id="galleryUpdate">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Slider Görsel ve SEO Güncelleme
                                         </h6>
                                     </div>
                                     <div class="card-body">
-                                        <p>Anasayfanızda slider bulunduğu bölümün düzenlemelerini aşağıdan
-                                            yapabilirsiniz.
+                                        <p>Galeri sayfanıza resim düzenleme işlemini aşağıdan yapabilirsiniz.
                                         </p>
                                     </div>
                                     <div class="row">
@@ -64,7 +63,7 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                                             <div class="card-body">
                                                 <div class="card shadow mb-4">
                                                     <div class="card-header py-3">
-                                                        <h6 class="m-0 font-weight-bold text-dark">Slider - Görsel / SEO
+                                                        <h6 class="m-0 font-weight-bold text-dark">Galeri Görsel
                                                         </h6>
                                                     </div>
                                                     <div class="card-body">
@@ -86,8 +85,7 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                                                                 <p>TR | Görsel Açıklaması (SEO için önerilir!).</p>
                                                                 <div class="mb-0">
                                                                     <input class="form-control" type="text"
-                                                                        value="<?php echo $row['baslik']; ?>"
-                                                                        name="baslik"
+                                                                        value="<?php echo $row['seo']; ?>" name="seo"
                                                                         placeholder="Bu alana başlığı yazınız!"
                                                                         aria-label="default input example">
                                                                 </div>
@@ -98,8 +96,8 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                                                                 <p>EN | Görsel Açıklaması (SEO için önerilir!).</p>
                                                                 <div class="mb-0">
                                                                     <input class="form-control" type="text"
-                                                                        value="<?php echo $row['en_baslik']; ?>"
-                                                                        name="en_baslik"
+                                                                        value="<?php echo $row['en_seo']; ?>"
+                                                                        name="en_seo"
                                                                         placeholder="Bu alana başlığı yazınız!"
                                                                         aria-label="default input example">
                                                                 </div>
@@ -185,10 +183,10 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
 
     <script>
     $(document).ready(function() {
-        $('#sliderUpdate').on('submit', function(e) {
+        $('#galleryUpdate').on('submit', function(e) {
             $.ajax({
                 url: 'islem.php',
-                data: $(this).serialize() + '&form_name=' + $("#sliderUpdate").attr("name"),
+                data: $(this).serialize() + '&form_name=' + $("#galleryUpdate").attr("name"),
                 type: 'POST',
                 success: function(response) {
                     Swal.fire({
@@ -206,7 +204,6 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                 }
             });
             e.preventDefault();
-
         });
     });
     var button1 = document.getElementById('ckfinder-popup-1');

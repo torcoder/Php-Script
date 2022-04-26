@@ -125,36 +125,6 @@ foreach ($slidercek as $row) {
 
         <script>
         $(document).ready(function() {
-            $('#sliderDelete').on('submit', function(e) {
-                $.ajax({
-                    url: 'islem.php',
-                    data: $(this).serialize() + '&form_name=' + $("#sliderUpdate").attr("name"),
-                    type: 'POST',
-                    success: function(response) {
-                        swal('Güncellendi!', response.message, response.status);
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1500);
-                    },
-                    error: function(response) {
-                        swal('Oops...', 'Sanırım bir hata yaptınız :(', 'error');
-                    }
-                });
-                e.preventDefault();
-
-            });
-        });
-
-        $(document).ready(function() {
-            $(document).on('click', '#delete_product', function(e) {
-                var productId = $(this).data('id');
-                SwalDelete(productId);
-                e.preventDefault();
-            });
-
-        });
-
-        $(document).ready(function() {
             $(document).on('click', '#delete_slider', function(e) {
                 var productId = $(this).data('id');
                 swal.fire({
@@ -191,36 +161,36 @@ foreach ($slidercek as $row) {
         });
 
 
-        function SwalDelete(productId) {
-            swal({
-                title: 'Silmek istediğinize emin misiniz?',
-                text: "Sildikten sonra geri alamazsınız!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Evet, Sil!',
-            }).then(function() {
-                $.ajax({
-                    url: 'islem.php',
-                    type: 'POST',
-                    data: 'id=' + productId + '&form_name=deleteSlider',
-                    dataType: 'json',
-                    success: function(response) {
-                        swal('Silindi!', response.message, response.status);
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
-                    },
-                    error: function() {
-                        swal('Oops...', 'Sanırım bir hata yaptınız :(',
-                            'error');
-                    }
-                });
+        // function SwalDelete(productId) {
+        //     swal({
+        //         title: 'Silmek istediğinize emin misiniz?',
+        //         text: "Sildikten sonra geri alamazsınız!",
+        //         type: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Evet, Sil!',
+        //     }).then(function() {
+        //         $.ajax({
+        //             url: 'islem.php',
+        //             type: 'POST',
+        //             data: 'id=' + productId + '&form_name=deleteSlider',
+        //             dataType: 'json',
+        //             success: function(response) {
+        //                 swal('Silindi!', response.message, response.status);
+        //                 setTimeout(() => {
+        //                     window.location.reload();
+        //                 }, 1000);
+        //             },
+        //             error: function() {
+        //                 swal('Oops...', 'Sanırım bir hata yaptınız :(',
+        //                     'error');
+        //             }
+        //         });
 
-            })
+        //     })
 
-        }
+        // }
         </script>
 </body>
 

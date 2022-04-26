@@ -13,7 +13,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -26,7 +28,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php include 'sidenav.php' ?>
+        <?php include 'sidenav.php'?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -34,7 +36,7 @@
             <!-- Main Content -->
             <div id="content">
 
-                <?php include 'header.php' ?>
+                <?php include 'header.php'?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -60,37 +62,30 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Siteler Ofis</td>
-                                            <td>Siteler Office</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, nihil.</td>
-                                            <td>555-555-55-55</td>
-                                            <td>deneme@dekomaks.com.tr</td>
-                                            <td><button type="button" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i></button></td>
-                                            <td><button type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Sincan Ofis</td>
-                                            <td>Sincan Office</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, nihil.</td>
-                                            <td>555-555-55-55</td>
-                                            <td>deneme@dekomaks.com.tr</td>
-                                            <td><button type="button" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i></button></td>
-                                            <td><button type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Keçiören Ofis</td>
-                                            <td>Keçiören Office</td>
-                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, nihil.</td>
-                                            <td>555-555-55-55</td>
-                                            <td>deneme@dekomaks.com.tr</td>
-                                            <td><button type="button" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i></button></td>
-                                            <td><button type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
-                                        </tr>
+                                        <?php
+$query = $baglanti->prepare("SELECT * FROM ofis");
+$query->execute();
+$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 
+foreach ($fetch as $row) {
+    ?>
+                                        <tr>
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['ofis']; ?></td>
+                                            <td><?php echo $row['en_ofis']; ?></td>
+                                            <td><?php echo $row['adres']; ?></td>
+                                            <td><?php echo $row['telefon']; ?></td>
+                                            <td><?php echo $row['email']; ?></td>
+                                            <td><a href="ofis-duzenle.php?id=<?php echo $row['id']; ?>"
+                                                    class="btn btn-info"><i class="fa fa-check"
+                                                        aria-hidden="true"></i></a>
+                                            </td>
+                                            <td><button type="button" id="delete_office"
+                                                    data-id="<?php echo $row['id']; ?>" class="btn btn-danger"><i
+                                                        class="fa fa-times" aria-hidden="true"></i></button>
+                                            </td>
+                                        </tr>
+                                        <?php }?>
                                     </tbody>
                                 </table>
                             </div>
@@ -99,7 +94,7 @@
                 </div>
                 <!-- End of Main Content -->
 
-                <?php include 'footer.php' ?>
+                <?php include 'footer.php'?>
 
             </div>
             <!-- End of Content Wrapper -->
@@ -127,6 +122,44 @@
 
         <!-- Page level custom scripts -->
         <script src="js/demo/datatables-demo.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            $(document).on('click', '#delete_office', function(e) {
+                var productId = $(this).data('id');
+                swal.fire({
+                    title: 'Emin misin?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Kapat',
+                    confirmButtonText: 'Evet, Sil!',
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                                url: 'islem.php',
+                                type: 'POST',
+                                data: 'id=' + productId + '&form_name=deleteOffice',
+                                dataType: 'json'
+                            })
+                            .done(function(response) {
+                                swal.fire('Silindi!', response.message, response.status);
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1000);
+                            })
+                            .fail(function() {
+                                swal.fire('Oops...', 'Something went wrong with ajax !',
+                                    'error');
+                            });
+                    }
+
+                })
+
+            });
+        });
+        </script>
 
 </body>
 

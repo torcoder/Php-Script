@@ -1,3 +1,34 @@
+<?php include '../config/db.php';
+ob_start();
+session_start();
+print_r(md5(123456));
+print_r($_SESSION["username"]);
+if (isset($_POST["giris"])) {
+
+    $username = htmlspecialchars(trim($_POST["username"]));
+    $password = htmlspecialchars(trim(md5($_POST["password"])));
+
+    if (!$username || !$password) {
+        header("Location: login.php?giris=bos");
+    } else {
+        $query = $baglanti->prepare("SELECT * FROM `admin` WHERE username=? AND password=?");
+        $query->execute(array($username, $password));
+        $admin_giris = $query->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin_giris) {
+            $_SESSION["login"] = true;
+            $_SESSION["username"] = $admin_giris["username"];
+            $_SESSION["id"] = $admin_giris["id"];
+
+            header("location:index.php");
+        } else {
+            header("location:login.php?giris=no");
+        }
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +44,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
@@ -41,27 +74,33 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Dekomaks, Hoşgeldiniz!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" action="" method="POST">
                                         <div class="form-group">
-                                            <input type="admin" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Kullanıcı adınızı giriniz!">
+                                            <input type="text" class="form-control form-control-user" name="username"
+                                                placeholder="Kullanıcı adı...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Şifrenizi giriniz!">
+                                            <input type="password" class="form-control form-control-user"
+                                                name="password" id="exampleInputPassword" placeholder="Şifre">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Beni Hatırla</label>
-                                            </div>
-                                        </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Giriş
-                                        </a>
+                                        <button class="btn btn-primary" name="giris" type="submit">giriş yap</button>
+                                        <hr>
 
+                                        <?php if (@$_GET["giris"] == "no") {?>
+                                        <div class="col-xs-14">
+                                            <a class="btn btn-block bg-red waves-effect">Giriş Bilgileriniz Hatalı !</a>
+                                        </div>
+                                        <?php } elseif (@$_GET["giris"] == "bos") {?>
+                                        <div class="col-xs-14">
+                                            <a class="btn btn-block bg-orange waves-effect">Lütfen Boş Alan Bırakmayınız
+                                                !</a>
+                                        </div>
+                                        <?php }?>
                                     </form>
                                     <hr>
                                     <div class="text-center small">
-                                        Yazılım ve Tasarım | <a href="https://www.bullviotech.com">Bullvio Teknoloji ve Yazılım</a>
+                                        Yazılım ve Tasarım | <a href="https://www.bullviotech.com">Bullvio Teknoloji ve
+                                            Yazılım</a>
                                     </div>
                                 </div>
                             </div>

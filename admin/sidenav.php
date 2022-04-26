@@ -61,7 +61,6 @@
                         <h6 class="collapse-header">Ürünler Düzenleme:</h6>
                         <a class="collapse-item" href="urunler.php">Ürünler</a>
                         <a class="collapse-item" href="urun-icerik.php">Ürün Ekle</a>
-                        <a class="collapse-item" href="urun-detay.php">İçerik Detay Sayfası</a>
                     </div>
                 </div>
             </li>
@@ -164,7 +163,7 @@
                 Güvenli Çıkış
             </div>
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="logout.php">
                     <i class="fa fa-times-circle" aria-hidden="true"></i>
                     <span>Çıkış Yap</span></a>
             </li>

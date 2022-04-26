@@ -13,7 +13,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -25,7 +27,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php include 'sidenav.php' ?>
+        <?php include 'sidenav.php'?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -33,83 +35,99 @@
             <!-- Main Content -->
             <div id="content">
 
-                <?php include 'header.php' ?>
+                <?php include 'header.php'?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Galeri Görsel ve SEO Düzenleme</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Galeri sayfanıza resim ekleme işlemini aşağıdan yapabilirsiniz.</p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card-body">
-                                            <div class="card shadow mb-4">
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-dark">Galeri - Görsel / SEO</h6>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p>1920x1080px boyutunda görsel yükleyiniz.</p>
-                                                    <div class="mb-0">
-                                                        <div class="file-upload-wrapper">
-                                                            <input class="form-control" type="file" id="formFile">
-                                                        </div>
+                            <form name="galleryAdd" id="galleryAdd">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Galeri Görsel ve SEO Düzenleme
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Galeri sayfanıza resim ekleme işlemini aşağıdan yapabilirsiniz.</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card-body">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-dark">Galeri - Görsel / SEO
+                                                        </h6>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <div class="card-body">
-                                                            <p>TR | Görsel Açıklaması (SEO için önerilir!).</p>
-                                                            <div class="mb-0">
-                                                                <input class="form-control" type="text" placeholder="Bu alana başlığı yazınız!" aria-label="default input example">
+                                                    <div class="card-body">
+                                                        <p>1920x1080px boyutunda görsel yükleyiniz.</p>
+                                                        <div class="mb-0">
+                                                            <div class="file-upload-wrapper">
+                                                                <input id="ckfinder-input-1" type="text" name="resim"
+                                                                    style="width:50%">
+                                                                <button id="ckfinder-popup-1" type="button"
+                                                                    class="btn btn-warning">Sunucudan Resim
+                                                                    Ekle</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-6">
-                                                        <div class="card-body">
-                                                            <p>EN | Görsel Açıklaması (SEO için önerilir!).</p>
-                                                            <div class="mb-0">
-                                                                <input class="form-control" type="text" placeholder="Bu alana başlığı yazınız!" aria-label="default input example">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="card-body">
+                                                                <p>TR | Görsel Açıklaması (SEO için önerilir!).</p>
+                                                                <div class="mb-0">
+                                                                    <input class="form-control" type="text" name="seo"
+                                                                        placeholder="Bu alana başlığı yazınız!"
+                                                                        aria-label="default input example">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="card-body">
+                                                                <p>EN | Görsel Açıklaması (SEO için önerilir!).</p>
+                                                                <div class="mb-0">
+                                                                    <input class="form-control" type="text"
+                                                                        name="en_seo"
+                                                                        placeholder="Bu alana başlığı yazınız!"
+                                                                        aria-label="default input example">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="card-body">
-                                                    <p>Görsel Sırası.</p>
-                                                    <div class="mb-0">
-                                                        <textarea class="form-control" placeholder="Bu alana açıklama yazınız!" id="exampleFormControlTextarea1" rows="1"></textarea>
+                                                    <div class="card-body">
+                                                        <p>Görsel Sırası.</p>
+                                                        <div class="mb-0">
+                                                            <textarea class="form-control" name="sira"
+                                                                placeholder="Bu alana sayı yazınız!"
+                                                                id="exampleFormControlTextarea1" rows="1"></textarea>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p>Görsel aktif olsun istiyorsanız tik atınız.</p>
-                                                    <div class="mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label" for="flexCheckDefault">
-                                                                Aktif mi?
-                                                            </label>
+                                                    <div class="card-body">
+                                                        <p>Slider aktif olsun istiyorsanız tik atınız.</p>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    name="durum" id="flexCheckDefault">
+                                                                <label class="form-check-label" for="flexCheckDefault">
+                                                                    Aktif mi?
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card-body">
-                                            <button type="button" class="btn btn-dark">Ekle</button>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card-body">
+                                                <button type="submit" class="btn btn-dark">Ekle</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
 
                         </div>
 
@@ -119,7 +137,7 @@
             </div>
             <!-- End of Main Content -->
 
-            <?php include 'footer.php' ?>
+            <?php include 'footer.php'?>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -148,6 +166,61 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#galleryAdd').on('submit', function(e) {
+            $.ajax({
+                url: 'islem.php',
+                data: $(this).serialize() + '&form_name=' + $("#galleryAdd").attr("name"),
+                type: 'POST',
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eklendi!',
+                        text: `${response.message}`,
+                    })
+                },
+                error: function(response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${response.message}`,
+                    })
+                }
+            });
+            e.preventDefault();
+            document.getElementById("galleryAdd").reset();
+        });
+    });
+
+    var button1 = document.getElementById('ckfinder-popup-1');
+    var button2 = document.getElementById('ckfinder-popup-2');
+
+    button1.onclick = function() {
+        selectFileWithCKFinder('ckfinder-input-1');
+    };
+
+    function selectFileWithCKFinder(elementId) {
+        CKFinder.popup({
+            chooseFiles: true,
+            width: 800,
+            height: 600,
+            onInit: function(finder) {
+                finder.on('files:choose', function(evt) {
+                    var file = evt.data.files.first();
+                    var output = document.getElementById(elementId);
+                    output.value = file.getUrl();
+                });
+
+                finder.on('file:choose:resizedImage', function(evt) {
+                    var output = document.getElementById(elementId);
+                    output.value = evt.data.resizedUrl;
+                });
+            }
+        });
+    }
+    </script>
 
 </body>
 

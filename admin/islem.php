@@ -2,7 +2,7 @@
 session_start();
 include '../config/db.php';
 include 'class/seourl.php';
-// include "kontrol.php";
+include "kontrol.php";
 header('Content-type: application/json; charset=UTF-8');
 $response = array();
 $seo = "";
@@ -212,6 +212,7 @@ if (isset($_POST['form_name']) & ($_POST['form_name'] == 'iletisim_seo_en')) {
     echo json_encode($response);
 }
 
+// Slider Ekle
 if (isset($_POST['form_name']) & ($_POST['form_name'] == 'sliderAdd')) {
     $durum = 0;
     if (isset($_POST['durum'])) {
@@ -232,6 +233,7 @@ if (isset($_POST['form_name']) & ($_POST['form_name'] == 'sliderAdd')) {
     }
     echo json_encode($response);
 }
+// Slider Güncelle
 
 if (isset($_POST['form_name']) & ($_POST['form_name'] == 'sliderUpdate')) {
     $durum = 0;
@@ -253,6 +255,7 @@ if (isset($_POST['form_name']) & ($_POST['form_name'] == 'sliderUpdate')) {
     }
     echo json_encode($response);
 }
+// Slider Sil
 
 if (isset($_POST['form_name']) & ($_POST['form_name'] == 'deleteSlider')) {
     $id = intval($_POST['id']);
@@ -341,7 +344,32 @@ if (isset($_POST['form_name']) & ($_POST['form_name'] == 'categoryUpdate')) {
 // Kategori Sil
 
 if (isset($_POST['form_name']) & ($_POST['form_name'] == 'deleteCategory')) {
-    $id = intval($_POST['id']);
+    $id = $_POST['id'];
+    $statement = $baglanti->prepare("SELECT * FROM urunler WHERE category_id=?");
+    $statement->execute(array($id));
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+        $p_ids[] = $row['id'];
+    }
+
+    for ($i = 0; $i < count($p_ids); $i++) {
+        // Getting other photo ID to unlink from folder
+        $statement = $baglanti->prepare("SELECT * FROM resimler WHERE urun_id=?");
+        $statement->execute(array($p_ids[$i]));
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $photo = $row['name'];
+            unlink('../assets/uploads/product_photos/' . $photo);
+        }
+
+        $statement = $baglanti->prepare("DELETE FROM urunler WHERE id=?");
+        $statement->execute(array($p_ids[$i]));
+
+        // Delete from tbl_product_photo
+        $statement = $baglanti->prepare("DELETE FROM resimler WHERE urun_id=?");
+        $statement->execute(array($p_ids[$i]));
+    }
+
     $query = $baglanti->prepare("DELETE FROM kategoriler WHERE id=?");
     $delete = $query->execute(array($id));
 
@@ -355,31 +383,275 @@ if (isset($_POST['form_name']) & ($_POST['form_name'] == 'deleteCategory')) {
     echo json_encode($response);
 }
 
-// // Giriş İşlemi
-// if (isset($_POST["giris"])) {
+// Ürün Sil
 
-//     $admin_kadi = htmlspecialchars(trim($_POST["admin_kadi"]));
-//     $admin_sifre = htmlspecialchars(trim(md5($_POST["admin_sifre"])));
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'deleteProduct')) {
+    $id = intval($_POST['id']);
+    $query = $baglanti->prepare("DELETE FROM urunler WHERE id=?");
+    $delete = $query->execute(array($id));
 
-//     if (!$admin_kadi || !$admin_sifre) {
-//         header("Location: login.php?giris=bos");
-//     } else {
-//         $query = $baglanti->prepare("SELECT * FROM `admin` WHERE admin_kadi=? AND admin_sifre=?");
-//         $query->execute(array($admin_kadi, $admin_sifre));
-//         $admin_giris = $query->fetch(PDO::FETCH_ASSOC);
+    if ($delete) {
+        $response['status'] = 'success';
+        $response['message'] = 'Kategori başarıyla Silindi ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Bir hata oluştu ...';
+    }
+    echo json_encode($response);
+}
 
-//         if ($admin_giris) {
+// Profil Ekleme
 
-//             $_SESSION["login"] = true;
-//             $_SESSION["admin_kadi"] = $admin_giris["admin_kadi"];
-//             $_SESSION["id"] = $admin_giris["id"];
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'addProfile')) {
+    $query = $baglanti->prepare("INSERT INTO profil SET name=?, en_name=?");
+    $insert = $query->execute(array($name, $en_name));
 
-//             header("Location: index.php");
-//         } else {
-//             header("Location: login.php?giris=no");
-//         }
-//     }
-// }
+    if ($insert) {
+        $response['status'] = 'success';
+        $response['message'] = 'Ekleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+// Renk Ekleme
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'addColor')) {
+    $query = $baglanti->prepare("INSERT INTO renkler SET name=?, en_name=?, profil_id=?");
+    $insert = $query->execute(array($name, $en_name, $profil_id));
+
+    if ($insert) {
+        $response['status'] = 'success';
+        $response['message'] = 'Ekleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Renk Güncelle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'updateColor')) {
+    $id = $_POST['id'];
+    $query = $baglanti->prepare("UPDATE `renkler` SET name=?, en_name=? WHERE profil_id=?");
+    $update = $query->execute(array($name, $en_name, $id));
+
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Ebat Ekleme
+
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'addDimension')) {
+    $query = $baglanti->prepare("INSERT INTO ebatlar SET name=?, en_name=?, profil_id=?");
+    $insert = $query->execute(array($name, $en_name, $profil_id));
+
+    if ($insert) {
+        $response['status'] = 'success';
+        $response['message'] = 'Ekleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Ebat Güncelle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'updateDimension')) {
+    $id = $_POST['id'];
+    $query = $baglanti->prepare("UPDATE `ebatlar` SET name=?, en_name=? WHERE profil_id=?");
+    $update = $query->execute(array($name, $en_name, $id));
+
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Cam Ekleme
+
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'addGlass')) {
+    $query = $baglanti->prepare("INSERT INTO camlar SET name=?, en_name=?, profil_id=?");
+    $insert = $query->execute(array($name, $en_name, $profil_id));
+
+    if ($insert) {
+        $response['status'] = 'success';
+        $response['message'] = 'Ekleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Cam Güncelle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'updateGlass')) {
+    $id = $_POST['id'];
+    $query = $baglanti->prepare("UPDATE `camlar` SET name=?, en_name=? WHERE profil_id=?");
+    $update = $query->execute(array($name, $en_name, $id));
+
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Profil Sil
+
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'deleteProfile')) {
+    $id = intval($_POST['id']);
+    $query = $baglanti->prepare("DELETE FROM profil WHERE id=?");
+    $delete = $query->execute(array($id));
+
+    if ($delete) {
+        $response['status'] = 'success';
+        $response['message'] = 'Profil başarıyla Silindi ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Bir hata oluştu ...';
+    }
+    echo json_encode($response);
+}
+
+// Profil Güncelle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'updateProfile')) {
+    $id = $_POST['id'];
+    $query = $baglanti->prepare("UPDATE `profil` SET name=?, en_name=? WHERE id=?");
+    $update = $query->execute(array($name, $en_name, $id));
+
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Ofis Ekleme
+
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'addOffice')) {
+    $query = $baglanti->prepare("INSERT INTO ofis SET ofis=?, en_ofis=?, adres=?, telefon=?, email=?");
+    $insert = $query->execute(array($ofis, $en_ofis, $adres, $telefon, $email));
+
+    if ($insert) {
+        $response['status'] = 'success';
+        $response['message'] = 'Ekleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Ofis Güncelle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'updateOffice')) {
+    $id = $_POST['id'];
+    $query = $baglanti->prepare("UPDATE `ofis` SET ofis=?, en_ofis=?, adres=?, telefon=?, email=? WHERE id=?");
+    $update = $query->execute(array($ofis, $en_ofis, $adres, $telefon, $email, $id));
+
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Google Map Güncelle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'updateMap')) {
+    $id = 1;
+    $query = $baglanti->prepare("UPDATE `map` SET name=? WHERE id=?");
+    $update = $query->execute(array($name, $id));
+
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+
+// Galeri Ekle
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'galleryAdd')) {
+    $durum = 0;
+    if (isset($_POST['durum'])) {
+        $durum = 1;
+    }
+    $sira;
+    if (isset($_POST['sira'])) {
+        $sira = intval($_POST['sira']) + 1;
+    }
+    $query = $baglanti->prepare("INSERT INTO galeri SET resim=?, seo=?, en_seo=?, durum=?, sira=?");
+    $insert = $query->execute(array($resim, $seo, $en_seo, $durum, $sira));
+    if ($insert) {
+        $response['status'] = 'success';
+        $response['message'] = 'Ekleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+// Galeri Güncelle
+
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'galleryUpdate')) {
+    $durum = 0;
+    if (isset($_POST['durum'])) {
+        $durum = 1;
+    }
+    $sira;
+    if (isset($_POST['sira'])) {
+        $sira = intval($_POST['sira']) + 1;
+    }
+    $query = $baglanti->prepare("UPDATE galeri SET resim=?, seo=?, en_seo=?, durum=?, sira=? WHERE id=?");
+    $update = $query->execute(array($resim, $seo, $en_seo, $durum, $sira, $id));
+    if ($update) {
+        $response['status'] = 'success';
+        $response['message'] = 'Güncelleme İşleminiz Başarılı ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Güncelleme İşleminizde Hata Oluştu!';
+    }
+    echo json_encode($response);
+}
+// Galeri Sil
+
+if (isset($_POST['form_name']) & ($_POST['form_name'] == 'deleteGallery')) {
+    $id = intval($_POST['id']);
+    $query = $baglanti->prepare("DELETE FROM galeri WHERE id=?");
+    $delete = $query->execute(array($id));
+
+    if ($delete) {
+        $response['status'] = 'success';
+        $response['message'] = 'Galeri başarıyla Silindi ...';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Bir hata oluştu ...';
+    }
+    echo json_encode($response);
+}
+
+// Giriş İşlemi
 
 // // Admin Bilgi Güncelleme
 

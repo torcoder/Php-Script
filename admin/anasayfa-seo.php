@@ -165,10 +165,18 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                 data: $(this).serialize() + '&form_name=' + $("#postform1").attr("name"),
                 type: 'POST',
                 success: function(response) {
-                    swal('Güncellendi!', response.message, response.status);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Güncellendi!',
+                        text: `${response.message}`,
+                    })
                 },
                 error: function(response) {
-                    swal('Oops...', 'Sanırım bir hata yaptınız :(', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${response.message}`,
+                    })
                 }
             });
             e.preventDefault();
@@ -180,10 +188,18 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                 data: $(this).serialize() + '&form_name=' + $("#postform2").attr("name"),
                 type: 'POST',
                 success: function(response) {
-                    swal('Güncellendi!', response.message, response.status);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Güncellendi!',
+                        text: `${response.message}`,
+                    })
                 },
                 error: function(response) {
-                    swal('Oops...', 'Sanırım bir hata yaptınız :(', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${response.message}`,
+                    })
                 }
             });
             e.preventDefault();

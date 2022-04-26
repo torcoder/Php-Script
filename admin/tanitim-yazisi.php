@@ -420,13 +420,21 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
                 data: $(this).serialize() + '&form_name=' + $("#tanitimUpdate").attr("name"),
                 type: 'POST',
                 success: function(response) {
-                    swal('Güncellendi!', response.message, response.status);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Güncellendi!',
+                        text: `${response.message}`,
+                    })
                     setTimeout(() => {
                         window.location.reload();
                     }, 1500);
                 },
                 error: function(response) {
-                    swal('Oops...', 'Sanırım bir hata yaptınız :(', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${response.message}`,
+                    })
                 }
             });
             e.preventDefault();

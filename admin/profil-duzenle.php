@@ -1,3 +1,26 @@
+<?php
+error_reporting(0);
+require_once '../config/db.php';
+
+$id = $_REQUEST["id"];
+$urunler = $baglanti->prepare("SELECT * FROM profil WHERE id=?");
+$urunler->execute(array($id));
+$fetch = $urunler->fetch(PDO::FETCH_ASSOC);
+
+$glass = $baglanti->prepare("SELECT * FROM camlar WHERE profil_id=?");
+$glass->execute(array($id));
+$fetchGlass = $glass->fetch(PDO::FETCH_ASSOC);
+
+$dimension = $baglanti->prepare("SELECT * FROM ebatlar WHERE profil_id=?");
+$dimension->execute(array($id));
+$fetchDimension = $dimension->fetch(PDO::FETCH_ASSOC);
+
+$color = $baglanti->prepare("SELECT * FROM renkler WHERE profil_id=?");
+$color->execute(array($id));
+$fetchColor = $color->fetch(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,19 +60,17 @@
             <div id="content">
 
                 <?php include 'header.php';?>
-
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12 mb-4">
-                            <form name="addProfile" id="addProfile">
+                            <form name="updateProfile" id="updateProfile">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Profil Ekleme</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Profil güncelleme</h6>
                                     </div>
                                     <div class="card-body">
-                                        <p>Profillerinizi tek tek ekleme yapınız.</p>
+                                        <p>Profillerinizi tek tek güncelleme yapınız.</p>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
@@ -57,6 +78,7 @@
                                                 <p>TR | Profil Adı.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text" name="name"
+                                                        value="<?php echo $fetch['name']; ?>"
                                                         placeholder="Bu alana profil adı yazınız!"
                                                         aria-label="default input example">
                                                 </div>
@@ -67,54 +89,31 @@
                                                 <p>EN | Profil Adı.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text" name="en_name"
+                                                        value="<?php echo $fetch['en_name']; ?>"
                                                         placeholder="Bu alana profil adı yazınız!"
                                                         aria-label="default input example">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="id" value="<?php echo $id ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-body">
-                                                <button type="submit" class="btn btn-dark">Ekle</button>
+                                                <button type="submit" class="btn btn-dark">Güncelle</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form name="addColor" id="addColor">
+                            <?php if ($fetchColor['name']): ?>
+                            <form name="updateColor" id="updateColor">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Renk Ekleme</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Renk güncelleme</h6>
                                     </div>
                                     <div class="card-body">
-                                        <p>Profillerinizi seçip tek tek renk ekleme yapınız.</p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="card-body">
-                                                <div class="col-4">
-                                                    <p>TR | Ürün Profil.</p>
-                                                </div>
-                                                <div class="col-8">
-                                                    <div class="mb-0">
-                                                        <select class="custom-select"
-                                                            aria-label="Default select example" name="profil_id">
-                                                            <option selected>Seçiniz:</option>
-                                                            <?php
-$query = $baglanti->prepare("SELECT * FROM profil");
-$query->execute();
-$profilcek = $query->fetchAll(PDO::FETCH_ASSOC);
-foreach ($profilcek as $row) {
-    ?>
-                                                            <option value="<?php echo $row['id'] ?>">
-                                                                <?php echo $row['name'] ?></option>
-                                                            <?php }?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <p>Profillerinizi seçip tek tek renk güncelleme yapınız.</p>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
@@ -122,6 +121,7 @@ foreach ($profilcek as $row) {
                                                 <p>TR | Renk Adı.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text" name="name"
+                                                        value="<?php echo $fetchColor['name']; ?>"
                                                         placeholder="Bu alana renk adı yazınız!"
                                                         aria-label="default input example">
                                                 </div>
@@ -132,54 +132,32 @@ foreach ($profilcek as $row) {
                                                 <p>EN | Renk Adı.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text" name="en_name"
+                                                        value="<?php echo $fetchColor['en_name']; ?>"
                                                         placeholder="Bu alana renk adı yazınız!"
                                                         aria-label="default input example">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="id" value="<?php echo $id ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-body">
-                                                <button type="submit" class="btn btn-dark">Ekle</button>
+                                                <button type="submit" class="btn btn-dark">Güncelle</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form name="addDimension" id="addDimension">
+                            <?php endif;?>
+                            <?php if ($fetchDimension['name']): ?>
+                            <form name="updateDimension" id="updateDimension">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Ebat Ekleme</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Ebat güncelleme</h6>
                                     </div>
                                     <div class="card-body">
-                                        <p>Profillerinizi seçip tek tek ebat ekleme yapınız.</p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="card-body">
-                                                <div class="col-4">
-                                                    <p>TR | Ürün Profil.</p>
-                                                </div>
-                                                <div class="col-8">
-                                                    <div class="mb-0">
-                                                        <select class="custom-select"
-                                                            aria-label="Default select example" name="profil_id">
-                                                            <option selected>Seçiniz:</option>
-                                                            <?php
-$query = $baglanti->prepare("SELECT * FROM profil");
-$query->execute();
-$profilcek = $query->fetchAll(PDO::FETCH_ASSOC);
-foreach ($profilcek as $row) {
-    ?>
-                                                            <option value="<?php echo $row['id'] ?>">
-                                                                <?php echo $row['name'] ?></option>
-                                                            <?php }?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <p>Profillerinizi seçip tek tek ebat güncelleme yapınız.</p>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
@@ -188,6 +166,7 @@ foreach ($profilcek as $row) {
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text"
                                                         placeholder="Bu alana ebat yazınız!" name="name"
+                                                        value="<?php echo $fetchDimension['name']; ?>"
                                                         aria-label="default input example">
                                                 </div>
                                             </div>
@@ -197,22 +176,26 @@ foreach ($profilcek as $row) {
                                                 <p>EN | Ürün Ebat.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text" name="en_name"
+                                                        value="<?php echo $fetchDimension['en_name']; ?>"
                                                         placeholder="Bu alana ebat yazınız!"
                                                         aria-label="default input example">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="id" value="<?php echo $id ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-body">
-                                                <button type="submit" class="btn btn-dark">Ekle</button>
+                                                <button type="submit" class="btn btn-dark">Güncelle</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form name="addGlass" id="addGlass">
+                            <?php endif;?>
+                            <?php if ($fetchGlass['name']): ?>
+                            <form name="updateGlass" id="updateGlass">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Cam Ekleme</h6>
@@ -223,37 +206,12 @@ foreach ($profilcek as $row) {
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="card-body">
-                                                <div class="col-4">
-                                                    <p>TR | Ürün Profil.</p>
-                                                </div>
-                                                <div class="col-8">
-                                                    <div class="mb-0">
-                                                        <select class="custom-select"
-                                                            aria-label="Default select example" name="profil_id">
-                                                            <option selected>Seçiniz:</option>
-                                                            <?php
-$query = $baglanti->prepare("SELECT * FROM profil");
-$query->execute();
-$profilcek = $query->fetchAll(PDO::FETCH_ASSOC);
-foreach ($profilcek as $row) {
-    ?>
-                                                            <option value="<?php echo $row['id'] ?>">
-                                                                <?php echo $row['name'] ?></option>
-                                                            <?php }?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="card-body">
                                                 <p>TR | Ürün Cam.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text"
                                                         placeholder="Bu alana cam adı yazınız!"
-                                                        aria-label="default input example" name="name">
+                                                        aria-label="default input example" name="name"
+                                                        value="<?php echo $fetchGlass['name']; ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -262,21 +220,24 @@ foreach ($profilcek as $row) {
                                                 <p>EN | Ürün Cam.</p>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="text" name="en_name"
+                                                        value="<?php echo $fetchGlass['en_name']; ?>"
                                                         placeholder="Bu alana cam adı yazınız!"
                                                         aria-label="default input example">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="id" value="<?php echo $id ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-body">
-                                                <button type="submit" class="btn btn-dark">Ekle</button>
+                                                <button type="submit" class="btn btn-dark">Güncelle</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
+                            <?php endif;?>
                             <!-- DataTales Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -368,15 +329,15 @@ foreach ($kategoricek as $row) {
 
     <script>
     $(document).ready(function() {
-        $('#addProfile').on('submit', function(e) {
+        $('#updateProfile').on('submit', function(e) {
             $.ajax({
                 url: 'islem.php',
-                data: $(this).serialize() + '&form_name=' + $("#addProfile").attr("name"),
+                data: $(this).serialize() + '&form_name=' + $("#updateProfile").attr("name"),
                 type: 'POST',
                 success: function(response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Eklendi!',
+                        title: 'Güncellendi!',
                         text: `${response.message}`,
                     })
                 },
@@ -389,18 +350,20 @@ foreach ($kategoricek as $row) {
                 }
             });
             e.preventDefault();
-            $('#addProfile').trigger("reset");
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
 
-        $('#addColor').on('submit', function(e) {
+        $('#updateColor').on('submit', function(e) {
             $.ajax({
                 url: 'islem.php',
-                data: $(this).serialize() + '&form_name=' + $("#addColor").attr("name"),
+                data: $(this).serialize() + '&form_name=' + $("#updateColor").attr("name"),
                 type: 'POST',
                 success: function(response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Eklendi!',
+                        title: 'Güncellendi!',
                         text: `${response.message}`,
                     })
                 },
@@ -413,17 +376,19 @@ foreach ($kategoricek as $row) {
                 }
             });
             e.preventDefault();
-            $('#addColor').trigger("reset");
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
-        $('#addDimension').on('submit', function(e) {
+        $('#updateDimension').on('submit', function(e) {
             $.ajax({
                 url: 'islem.php',
-                data: $(this).serialize() + '&form_name=' + $("#addDimension").attr("name"),
+                data: $(this).serialize() + '&form_name=' + $("#updateDimension").attr("name"),
                 type: 'POST',
                 success: function(response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Eklendi!',
+                        title: 'Güncellendi!',
                         text: `${response.message}`,
                     })
                 },
@@ -436,17 +401,19 @@ foreach ($kategoricek as $row) {
                 }
             });
             e.preventDefault();
-            $('#addDimension').trigger("reset");
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
-        $('#addGlass').on('submit', function(e) {
+        $('#updateGlass').on('submit', function(e) {
             $.ajax({
                 url: 'islem.php',
-                data: $(this).serialize() + '&form_name=' + $("#addGlass").attr("name"),
+                data: $(this).serialize() + '&form_name=' + $("#updateGlass").attr("name"),
                 type: 'POST',
                 success: function(response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Eklendi!',
+                        title: 'Güncellendi!',
                         text: `${response.message}`,
                     })
                 },
@@ -459,7 +426,9 @@ foreach ($kategoricek as $row) {
                 }
             });
             e.preventDefault();
-            $('#addGlass').trigger("reset");
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
         $(document).on('click', '#delete_profile', function(e) {
             var productId = $(this).data('id');
